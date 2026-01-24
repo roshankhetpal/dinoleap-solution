@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'none';"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>
+  DinoLeap - Websites That Grow Your Business | Web Development & SMMA
+    </title>
+    <meta
+      name="description"
+  content="DinoLeap crafts high-impact websites & social strategies. Founded by Roshan Khetpal, we offer web development, SMMA, and digital marketing services worldwide."
+    />
+  <meta name="author" content="DinoLeap - Roshan Khetpal" />
+    <meta
+      name="keywords"
+      content="web development, social media marketing, SMMA, digital marketing, React, TypeScript, responsive design, SEO"
+    />
+
+    <!-- Open Graph Meta Tags -->
+    <meta
+      property="og:title"
+  content="DinoLeap - Websites That Grow Your Business"
+    />
+    <meta
+      property="og:description"
+      content="Professional web development and social media marketing services. Let your brand blossom online with custom websites and strategic digital marketing."
+    />
+    <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dinoleap.dev" />
+  <meta property="og:image" content="https://dinoleap.dev/og-image.jpg" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@dinoleap" />
+    <meta
+      name="twitter:title"
+  content="DinoLeap - Websites That Grow Your Business"
+    />
+    <meta
+      name="twitter:description"
+      content="Professional web development and social media marketing services by Roshan Khetpal."
+    />
+    <meta
+      name="twitter:image"
+  content="https://dinoleap.dev/og-image.jpg"
+    />
+
+    <!-- Canonical URL -->
+  <link rel="canonical" href="https://dinoleap.dev" />
+
+    <!-- Favicons and Touch Icons -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="DinoLeap" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- Comprehensive Extension Error Suppression Script -->
+    <script>
+      // More aggressive extension error suppression
+      (function () {
+        "use strict";
+
+        // Store original functions
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        const originalConsoleError = console.error;
+        const originalConsoleWarn = console.warn;
+
+        // Extension detection patterns
+        const extensionPatterns = [
+          "extension://",
+          "chrome-extension://",
+          "moz-extension://",
+          "safari-extension://",
+          "vendor.js",
+          "content.",
+          "adobe",
+          "acrobat",
+          "colorzilla",
+          "grammarly",
+          "react-developer-tools",
+          "mouse-pinch",
+          "squarex",
+          "wappalyzer",
+          "urban-vpn",
+          "coupert",
+          "dimensions-inspect",
+          "instant-data-scraper",
+          "picture-in-picture",
+          "text-blaze",
+          "listener indicated an asynchronous response",
+          "message channel closed",
+          "runtime.lastError",
+          "unchecked runtime",
+          "Extension context invalidated",
+        ];
+
+        // Function to check if error is from extension
+        function isExtensionError(message, source, stack) {
+          const checkText =
+            (message || "") + " " + (source || "") + " " + (stack || "");
+          return extensionPatterns.some((pattern) =>
+            checkText.toLowerCase().includes(pattern.toLowerCase())
+          );
+        }
+
+        // Override console methods
+        console.error = function (...args) {
+          const message = args.join(" ");
+          if (!isExtensionError(message)) {
+            originalConsoleError.apply(console, args);
+          }
+        };
+
+        console.warn = function (...args) {
+          const message = args.join(" ");
+          if (!isExtensionError(message)) {
+            originalConsoleWarn.apply(console, args);
+          }
+        };
+
+        // Global error handler
+        window.addEventListener(
+          "error",
+          function (e) {
+            if (isExtensionError(e.message, e.filename, e.error?.stack)) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              return false;
+            }
+          },
+          true
+        );
+
+        // Unhandled promise rejection handler
+        window.addEventListener(
+          "unhandledrejection",
+          function (e) {
+            const reason = e.reason?.toString() || "";
+            if (isExtensionError(reason)) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              return false;
+            }
+          },
+          true
+        );
+
+        // Override addEventListener to prevent extension listeners
+        EventTarget.prototype.addEventListener = function (
+          type,
+          listener,
+          options
+        ) {
+          if (typeof listener === "function") {
+            const originalListener = listener;
+            listener = function (...args) {
+              try {
+                return originalListener.apply(this, args);
+              } catch (error) {
+                if (isExtensionError(error.message, "", error.stack)) {
+                  return false;
+                }
+                throw error;
+              }
+            };
+          }
+          return originalAddEventListener.call(this, type, listener, options);
+        };
+
+        // Suppress all runtime.lastError
+        if (typeof chrome !== "undefined" && chrome.runtime) {
+          Object.defineProperty(chrome.runtime, "lastError", {
+            get: function () {
+              return undefined;
+            },
+            set: function () {
+              return false;
+            },
+          });
+        }
+
+        // Prevent extension script injection detection
+        Object.defineProperty(window, "chrome", {
+          get: function () {
+            return undefined;
+          },
+          set: function () {
+            return false;
+          },
+        });
+      })();
+    </script>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

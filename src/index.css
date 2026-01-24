@@ -1,0 +1,655 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom text selection color */
+::selection {
+  background: #00E6D1;
+  color: #222;
+}
+
+/* Prevent extension interference */
+* {
+  box-sizing: border-box;
+}
+
+/* Hide extension-injected elements */
+[id*="extension"],
+[class*="extension"],
+[id*="chrome-extension"],
+[class*="chrome-extension"],
+[data-extension],
+[data-chrome-extension],
+iframe[src*="extension://"],
+iframe[src*="chrome-extension://"],
+div[style*="position: fixed"][style*="z-index: 999"],
+div[style*="position: absolute"][style*="z-index: 999"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Block extension content script interference */
+body {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Ensure main app container takes precedence */
+#root {
+  position: relative !important;
+  z-index: 10 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  isolation: isolate !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  padding-top: 0;
+  margin: 0;
+}
+
+/* Ensure main content doesn't get hidden behind fixed nav */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile-specific constraints */
+@media (max-width: 768px) {
+  * {
+    max-width: 100%;
+  }
+
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  section:not(#hero):not([aria-label*="Notifications"]) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  #hero {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Prevent toast/notification sections from taking space */
+  section[aria-label*="Notifications"],
+  [aria-label*="Notifications"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Contact section specific */
+  #contact {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  #contact .max-w-7xl {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Prevent text overflow */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div {
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  /* Form elements */
+  input,
+  textarea,
+  select {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Cards and components */
+  .glass-card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Ensure no horizontal scroll */
+.overflow-x-hidden {
+  overflow-x: hidden !important;
+}
+
+/* Additional mobile constraints for small screens */
+@media (max-width: 480px) {
+
+  /* Hero section mobile optimization */
+  #hero .relative {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  #hero h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  #hero p {
+    font-size: 0.9rem !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  #hero .flex {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  #contact {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  #contact .glass-card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Ensure form inputs don't overflow */
+  #contact input,
+  #contact textarea,
+  #contact .glass {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Grid adjustments for very small screens */
+  #contact .grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* DinoLeap Design System - Glass Morphism & Neon Accents */
+
+@layer base {
+  :root {
+    /* Core Brand Colors (DinoLeap) */
+    --background: 220 20% 8%;
+    --background-secondary: 220 16% 16%;
+    --foreground: 180 100% 99%;
+
+    /* Glass Morphism */
+    --glass: 220 20% 8% / 0.8;
+    --glass-light: 220 24% 24% / 0.6;
+    --glass-border: 220 30% 32% / 0.3;
+
+    /* DinoLeap Accents */
+    --neon-blue: 200 100% 50%;
+    /* #0090FF */
+    --neon-cyan: 172 100% 45%;
+    /* #00E6D1 */
+
+    /* Brand Gradients */
+    --gradient-brand: linear-gradient(135deg,
+        #0090FF,
+        #00E6D1);
+    --gradient-hero: linear-gradient(135deg,
+        hsl(220 20% 8%) 0%,
+        hsl(220 16% 16%) 50%,
+        #0090FF 100%);
+    --gradient-glass: linear-gradient(135deg,
+        hsl(220 24% 24% / 0.3),
+        hsl(220 30% 32% / 0.1));
+
+    /* UI Elements */
+    --card: 220 16% 16%;
+    --card-foreground: 180 100% 99%;
+    --popover: 220 16% 16%;
+    --popover-foreground: 180 100% 99%;
+
+    --primary: 200 100% 50%;
+    /* #0090FF */
+    --primary-foreground: 180 100% 99%;
+
+    --secondary: 172 100% 45%;
+    /* #00E6D1 */
+    --secondary-foreground: 180 100% 99%;
+
+    --muted: 220 16% 16%;
+    --muted-foreground: 180 20% 65%;
+
+    --accent: 172 100% 45%;
+    /* #00E6D1 */
+    --accent-foreground: 180 100% 99%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 180 100% 99%;
+
+    --border: 220 30% 32%;
+    --input: 220 24% 24%;
+    --ring: 200 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Shadows & Glows */
+    --shadow-glass: 0 8px 32px hsl(220 20% 8% / 0.3);
+    --glow-neon: 0 0 20px #0090FF80;
+    --glow-subtle: 0 0 40px #0090FF33;
+
+    /* Animation Durations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .light {
+    /* Core Brand Colors - Light Mode */
+    --background: 0 0% 100%;
+    --background-secondary: 210 40% 95%;
+    --foreground: 240 10% 3.9%;
+
+    /* Glass Morphism - Light Mode */
+    --glass: 255 255% 255% / 0.8;
+    --glass-light: 210 40% 95% / 0.6;
+    --glass-border: 240 20% 80% / 0.3;
+
+    /* Brand Gradients - Light Mode */
+    --gradient-hero: linear-gradient(135deg,
+        hsl(0 0% 100%) 0%,
+        hsl(210 40% 95%) 50%,
+        hsl(213 94% 68% / 0.1) 100%);
+    --gradient-glass: linear-gradient(135deg,
+        hsl(210 40% 95% / 0.3),
+        hsl(240 20% 80% / 0.1));
+
+    /* UI Elements - Light Mode */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 213 94% 68%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 95%;
+    --secondary-foreground: 240 10% 3.9%;
+
+    --muted: 210 40% 95%;
+    --muted-foreground: 215 20.2% 35%;
+
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 20% 80%;
+    --input: 210 40% 95%;
+    --ring: 213 94% 68%;
+
+    /* Shadows & Glows - Light Mode */
+    --shadow-glass: 0 8px 32px hsl(240 10% 3.9% / 0.1);
+    --glow-neon: 0 0 20px hsl(var(--neon-blue) / 0.3);
+    --glow-subtle: 0 0 40px hsl(var(--neon-blue) / 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image: radial-gradient(circle at 20% 50%,
+        hsl(213 94% 68% / 0.05) 0%,
+        transparent 50%),
+      radial-gradient(circle at 80% 20%,
+        hsl(262 83% 58% / 0.05) 0%,
+        transparent 50%),
+      radial-gradient(circle at 40% 80%,
+        hsl(189 85% 65% / 0.05) 0%,
+        transparent 50%);
+  }
+
+  /* Glass Morphism Base Classes */
+  .glass {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-6;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Light mode visibility fixes */
+  .light .glass {
+    /* Increase contrast for light backgrounds */
+    background: linear-gradient(135deg,
+        hsl(0 0% 100% / 0.85),
+        hsl(210 40% 96% / 0.85)) !important;
+    border-color: hsl(var(--border)) !important;
+    box-shadow: 0 8px 24px hsl(240 10% 3.9% / 0.06) !important;
+  }
+
+  .light .glass:hover {
+    background: linear-gradient(135deg,
+        hsl(0 0% 100% / 0.95),
+        hsl(210 40% 98% / 0.95)) !important;
+  }
+
+  .light .glass-card {
+    background: hsl(0 0% 100% / 0.9) !important;
+    border-color: hsl(var(--border)) !important;
+    box-shadow: 0 10px 30px hsl(240 10% 3.9% / 0.08) !important;
+  }
+
+  /* Inputs and textareas inside glass in light mode */
+  .light input.glass,
+  .light textarea.glass,
+  .light select.glass {
+    background: hsl(0 0% 100% / 1) !important;
+    color: hsl(var(--foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+
+  .light input::placeholder,
+  .light textarea::placeholder {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  /* Neon Glow Effects */
+  .glow-neon {
+    box-shadow: var(--glow-neon);
+  }
+
+  .glow-subtle {
+    box-shadow: var(--glow-subtle);
+  }
+
+  /* Text Gradients */
+  .text-gradient {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Parallax Container */
+  .parallax-container {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent));
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 640px) {
+
+    /* Prevent horizontal overflow */
+    html,
+    body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* Ensure proper viewport handling */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Optimize touch targets */
+    button,
+    a {
+      min-height: 44px;
+    }
+
+    /* Better text readability on small screens */
+    p,
+    span,
+    div {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Responsive glass cards */
+    .glass-card {
+      padding: 1rem !important;
+      margin: 0.5rem 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Better spacing for mobile */
+    section:not(#hero):not([aria-label*="Notifications"]) {
+      padding-top: 4rem !important;
+      padding-bottom: 4rem !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
+    }
+
+    /* Ensure containers don't overflow */
+    .max-w-7xl {
+      max-width: 100% !important;
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    /* Fix hero section on mobile */
+    .min-h-screen {
+      min-height: 100vh !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* Specific hero section mobile optimization */
+    #hero {
+      padding: 0 !important;
+      margin: 0 !important;
+      min-height: 100vh !important;
+      min-height: 100svh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: relative !important;
+      top: 0 !important;
+    }
+
+    /* Better form layout */
+    form {
+      width: 100% !important;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+
+    /* Extra small devices - minimize navigation gap */
+    nav {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* Hero section tight spacing */
+    #hero {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Optimize hero content layout */
+    #hero .relative {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* Reduce hero text spacing */
+    #hero h1 {
+      margin-bottom: 0.5rem !important;
+      font-size: 1.5rem !important;
+      line-height: 1.1 !important;
+    }
+
+    #hero p {
+      margin-bottom: 0.75rem !important;
+      font-size: 0.8rem !important;
+    }
+
+    /* Extra small devices */
+    .glass-card {
+      padding: 0.75rem !important;
+      margin: 0.25rem 0 !important;
+    }
+
+    /* Better navigation spacing */
+    .max-w-7xl {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    /* Smaller floating elements */
+    .animate-float {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+    }
+
+    /* Ensure text doesn't overflow */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      word-wrap: break-word !important;
+      hyphens: auto !important;
+    }
+
+    /* Better grid layout for very small screens */
+    .grid:not(#hero .grid) {
+      grid-template-columns: 1fr !important;
+      gap: 0.75rem !important;
+    }
+
+    /* Maintain 2x2 grid for hero stats on mobile */
+    #hero .grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 1rem !important;
+    }
+  }
+}
+
+/* Fluid Mesh Gradient Animations */
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+
+  50% {
+    transform: translateY(50%);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+.animate-blob-1 {
+  animation: moveInCircle 20s reverse infinite;
+}
+
+.animate-blob-2 {
+  animation: moveVertical 30s ease infinite;
+}
+
+.animate-blob-3 {
+  animation: moveHorizontal 40s ease infinite;
+}
+
+.animate-blob-4 {
+  animation: moveInCircle 40s linear infinite;
+}
+
+.animate-blob-5 {
+  animation: moveHorizontal 40s ease-in-out infinite;
+}
