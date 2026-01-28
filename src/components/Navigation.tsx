@@ -53,10 +53,7 @@ const Navigation = () => {
 
           entries.forEach((entry) => {
             // Check if intersecting and has a better ratio than current max
-            if (
-              entry.isIntersecting &&
-              entry.intersectionRatio >= maxRatio
-            ) {
+            if (entry.isIntersecting && entry.intersectionRatio >= maxRatio) {
               maxRatio = entry.intersectionRatio;
               activeEntry = entry;
             }
@@ -84,7 +81,7 @@ const Navigation = () => {
       {
         threshold: [0.1, 0.25, 0.5, 0.75],
         rootMargin: "-10% 0px -45% 0px",
-      }
+      },
     );
 
     // Observe all sections with a delay to ensure DOM is ready
@@ -153,14 +150,18 @@ const Navigation = () => {
     setIsScrolling(true);
 
     // Custom smooth scroll with easing
-    const smoothScrollTo = (startY: number, targetY: number, duration: number = 1000) => {
+    const smoothScrollTo = (
+      startY: number,
+      targetY: number,
+      duration: number = 1000,
+    ) => {
       const difference = targetY - startY;
       const startTime = performance.now();
 
       // Temporarily disable CSS smooth scroll to prevent conflicts
       const html = document.documentElement;
       const originalScrollBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = 'auto';
+      html.style.scrollBehavior = "auto";
 
       // Ease-in-out cubic for very smooth animation
       const easeInOutCubic = (t: number): number => {
@@ -205,7 +206,7 @@ const Navigation = () => {
         // Target Y relative to document top minus header height and a tiny padding
         const targetY = Math.max(
           0,
-          currentScrollY + rect.top - headerHeight - 8
+          currentScrollY + rect.top - headerHeight - 8,
         );
         smoothScrollTo(currentScrollY, targetY, 1000);
       } else {
@@ -237,13 +238,21 @@ const Navigation = () => {
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div
-          className={`glass backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl px-3 sm:px-4 lg:px-6 py-0.5 sm:py-1.5 lg:py-2 transition-all duration-300 ${scrolled ? "shadow-2xl shadow-primary/10" : "shadow-lg shadow-primary/5"
-            }`}
+          className={`glass backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl px-3 sm:px-4 lg:px-6 py-0.5 sm:py-1.5 lg:py-2 transition-all duration-300 ${
+            scrolled
+              ? "shadow-2xl shadow-primary/10"
+              : "shadow-lg shadow-primary/5"
+          }`}
         >
           <div className="flex items-center justify-between">
             {/* Logo Container for left alignment */}
             <div className="flex items-center min-w-[5rem] h-[3rem]">
-              <a href="/" className="flex items-center justify-center w-[5rem] h-[3rem] sm:w-[7rem] sm:h-[3.5rem] lg:w-[8rem] lg:h-[4rem]" tabIndex={0} aria-label="Go to home">
+              <a
+                href="/"
+                className="flex items-center justify-center w-[5rem] h-[3rem] sm:w-[7rem] sm:h-[3.5rem] lg:w-[8rem] lg:h-[4rem]"
+                tabIndex={0}
+                aria-label="Go to home"
+              >
                 <img
                   src={Logo}
                   alt="Logo"
@@ -261,15 +270,17 @@ const Navigation = () => {
                     key={item.name}
                     onClick={(e) => scrollToSection(item.href, e)}
                     onMouseDown={(e) => e.preventDefault()}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:text-primary relative group ${isActive ? "text-primary bg-white/5" : ""
-                      }`}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:text-primary relative group ${
+                      isActive ? "text-primary bg-white/5" : ""
+                    }`}
                   >
                     {item.name}
                     <div
-                      className={`absolute inset-x-0 bottom-0 h-0.5 bg-primary transition-transform duration-300 ${isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                        }`}
+                      className={`absolute inset-x-0 bottom-0 h-0.5 bg-primary transition-transform duration-300 ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }`}
                     />
                   </button>
                 );
@@ -326,10 +337,11 @@ const Navigation = () => {
                     <button
                       key={item.name}
                       onClick={() => scrollToSection(item.href)}
-                      className={`block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 hover:bg-white/10 hover:text-primary ${isActive
-                        ? "bg-white/10 text-primary border border-primary/20"
-                        : ""
-                        }`}
+                      className={`block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 hover:bg-white/10 hover:text-primary ${
+                        isActive
+                          ? "bg-white/10 text-primary border border-primary/20"
+                          : ""
+                      }`}
                     >
                       {item.name}
                     </button>

@@ -16,7 +16,7 @@ const Index = () => {
 
   useEffect(() => {
     // Handle navigation with hash when coming from other pages
-    if (location.hash && location.hash !== '#faq') {
+    if (location.hash && location.hash !== "#faq") {
       setTimeout(() => {
         const element = document.querySelector(location.hash);
         element?.scrollIntoView({ behavior: "smooth" });

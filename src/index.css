@@ -5,7 +5,7 @@
 
 /* Custom text selection color */
 ::selection {
-  background: #00E6D1;
+  background: #00e6d1;
   color: #222;
 }
 
@@ -142,7 +142,6 @@ main {
 
 /* Additional mobile constraints for small screens */
 @media (max-width: 480px) {
-
   /* Hero section mobile optimization */
   #hero .relative {
     padding-left: 8px !important;
@@ -214,16 +213,18 @@ main {
     /* #00E6D1 */
 
     /* Brand Gradients */
-    --gradient-brand: linear-gradient(135deg,
-        #0090FF,
-        #00E6D1);
-    --gradient-hero: linear-gradient(135deg,
-        hsl(220 20% 8%) 0%,
-        hsl(220 16% 16%) 50%,
-        #0090FF 100%);
-    --gradient-glass: linear-gradient(135deg,
-        hsl(220 24% 24% / 0.3),
-        hsl(220 30% 32% / 0.1));
+    --gradient-brand: linear-gradient(135deg, #0090ff, #00e6d1);
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(220 20% 8%) 0%,
+      hsl(220 16% 16%) 50%,
+      #0090ff 100%
+    );
+    --gradient-glass: linear-gradient(
+      135deg,
+      hsl(220 24% 24% / 0.3),
+      hsl(220 30% 32% / 0.1)
+    );
 
     /* UI Elements */
     --card: 220 16% 16%;
@@ -257,8 +258,8 @@ main {
 
     /* Shadows & Glows */
     --shadow-glass: 0 8px 32px hsl(220 20% 8% / 0.3);
-    --glow-neon: 0 0 20px #0090FF80;
-    --glow-subtle: 0 0 40px #0090FF33;
+    --glow-neon: 0 0 20px #0090ff80;
+    --glow-subtle: 0 0 40px #0090ff33;
 
     /* Animation Durations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -277,13 +278,17 @@ main {
     --glass-border: 240 20% 80% / 0.3;
 
     /* Brand Gradients - Light Mode */
-    --gradient-hero: linear-gradient(135deg,
-        hsl(0 0% 100%) 0%,
-        hsl(210 40% 95%) 50%,
-        hsl(213 94% 68% / 0.1) 100%);
-    --gradient-glass: linear-gradient(135deg,
-        hsl(210 40% 95% / 0.3),
-        hsl(240 20% 80% / 0.1));
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(0 0% 100%) 0%,
+      hsl(210 40% 95%) 50%,
+      hsl(213 94% 68% / 0.1) 100%
+    );
+    --gradient-glass: linear-gradient(
+      135deg,
+      hsl(210 40% 95% / 0.3),
+      hsl(240 20% 80% / 0.1)
+    );
 
     /* UI Elements - Light Mode */
     --card: 0 0% 100%;
@@ -330,15 +335,22 @@ main {
     @apply bg-background text-foreground antialiased;
     font-family: "Inter", sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    background-image: radial-gradient(circle at 20% 50%,
+    background-image:
+      radial-gradient(
+        circle at 20% 50%,
         hsl(213 94% 68% / 0.05) 0%,
-        transparent 50%),
-      radial-gradient(circle at 80% 20%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
         hsl(262 83% 58% / 0.05) 0%,
-        transparent 50%),
-      radial-gradient(circle at 40% 80%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 80%,
         hsl(189 85% 65% / 0.05) 0%,
-        transparent 50%);
+        transparent 50%
+      );
   }
 
   /* Glass Morphism Base Classes */
@@ -358,17 +370,21 @@ main {
   /* Light mode visibility fixes */
   .light .glass {
     /* Increase contrast for light backgrounds */
-    background: linear-gradient(135deg,
-        hsl(0 0% 100% / 0.85),
-        hsl(210 40% 96% / 0.85)) !important;
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.85),
+      hsl(210 40% 96% / 0.85)
+    ) !important;
     border-color: hsl(var(--border)) !important;
     box-shadow: 0 8px 24px hsl(240 10% 3.9% / 0.06) !important;
   }
 
   .light .glass:hover {
-    background: linear-gradient(135deg,
-        hsl(0 0% 100% / 0.95),
-        hsl(210 40% 98% / 0.95)) !important;
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.95),
+      hsl(210 40% 98% / 0.95)
+    ) !important;
   }
 
   .light .glass-card {
@@ -434,7 +450,6 @@ main {
 
   /* Mobile-specific optimizations */
   @media (max-width: 640px) {
-
     /* Prevent horizontal overflow */
     html,
     body {
@@ -517,7 +532,6 @@ main {
   }
 
   @media (max-width: 480px) {
-
     /* Extra small devices - minimize navigation gap */
     nav {
       padding-top: 0 !important;
