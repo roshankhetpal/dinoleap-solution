@@ -477,7 +477,7 @@ const CookiePolicy = () => {
                     <Cookie className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm">Email: hello@dinoleap.dev</p>
+                    <p className="text-sm">Email: hello@dinoleap.live</p>
                     <p className="text-sm text-muted-foreground">
                       Subject: Cookie Policy Inquiry
                     </p>

@@ -1,0 +1,5 @@
+# Redirect www to non-www (canonical URL)
+https://www.dinoleap.live/* https://dinoleap.live/:splat 301
+
+# SPA fallback — serve index.html for all routes (fixes 5xx server errors)
+/* /index.html 200
